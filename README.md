@@ -10,8 +10,6 @@ This project helps us understand how quickly snow is disappearing from Southern 
 * When it fully melts
 ...and how all of this is changing over time.
 
-This repository contains all the code, data, and visualizations used in the research paper — written to help you explore or reproduce the analysis even if you're new to coding or climate science.
-
 This repository provides the full codebase and datasets for extracting, cleaning, analyzing, and visualizing Snow Water Equivalent (SWE) data across the San Gabriel and San Bernardino mountain ranges, including Mt. Baldy. It integrates observational (instrumental), reanalysis (ERA5), and model (WRF-GCM) data to investigate trends in snowpack accumulation and melt under climate change.
 
 
