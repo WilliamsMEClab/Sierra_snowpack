@@ -5,12 +5,9 @@
 
 This project helps us understand how quickly snow is disappearing from Southern California mountains like Mt. Baldy due to climate change. We use weather models, satellite data, and real snow measurements to track:
 
-When snow starts to build up
-
-When it peaks
-
-When it fully melts
-
+* When snow starts to build up
+* When it peaks
+* When it fully melts
 ...and how all of this is changing over time.
 
 This repository contains all the code, data, and visualizations used in the research paper — written to help you explore or reproduce the analysis even if you're new to coding or climate science.
