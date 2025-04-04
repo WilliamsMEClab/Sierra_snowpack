@@ -3,7 +3,32 @@
 **Repository for:**  
 **_Preparing for Uncertain Water Futures: An Analysis of Intrannual Snowpack Processes in the Southern Sierra Nevada Under Climate Change_**
 
+This project helps us understand how quickly snow is disappearing from Southern California mountains like Mt. Baldy due to climate change. We use weather models, satellite data, and real snow measurements to track:
+
+When snow starts to build up
+
+When it peaks
+
+When it fully melts
+
+...and how all of this is changing over time.
+
+This repository contains all the code, data, and visualizations used in the research paper — written to help you explore or reproduce the analysis even if you're new to coding or climate science.
+
 This repository provides the full codebase and datasets for extracting, cleaning, analyzing, and visualizing Snow Water Equivalent (SWE) data across the San Gabriel and San Bernardino mountain ranges, including Mt. Baldy. It integrates observational (instrumental), reanalysis (ERA5), and model (WRF-GCM) data to investigate trends in snowpack accumulation and melt under climate change.
+
+
+
+## 🧭 How This All Works (Visual Flow)
+📦 Data Sources → 🧪 Extract with Python → 📊 Analyze + Visualize with R
+
+1. Observations   →  instrumental_swe_data_regionaverage.csv
+2. Reanalysis     →  wrf_era5_samplingscript_final.py
+3. Climate Models →  wrf_gcm_output_samplingscript_final.py
+                           ↓
+               Clean + Analyze in R
+                           ↓
+                 Visualizations + Insights
 
 ---
 
