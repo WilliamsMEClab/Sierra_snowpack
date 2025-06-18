@@ -1,8 +1,36 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar  1 09:40:01 2024
 
-@author: DavGreenspan
+Hey there!
+
+The code below is an effor to help you with data extraction from the ERA5 Dataset.
+ERA5 looks at global climate/weather data, updating every hour. It is usually about
+5 days behind real time, though, and goes back to 1940.
+
+An oveview of all the information of the ERA5 dataset can be found here:
+    https://confluence.ecmwf.int/display/CKB/The+family+of+ERA5+datasets
+    (although personally I found this documentation dry + overwhelming)
+
+A more friendly overview is here:
+    https://cds.climate.copernicus.eu/datasets/reanalysis-era5-pressure-levels-monthly-means?tab=overview
+
+To download the ERA5 dataset, follow this official tutorial:
+    https://confluence.ecmwf.int/display/CKB/How+to+download+ERA5
+
+The data is gridded, so looking at latitude and longitude. You'll need to specify
+    where you want to focus your research.
+
+We can use a WRF model to access the ERA5 too, which I found easier.
+    WRF stands for Weather Rsearch and Forcasting. 
+    You can read an overview here: 
+        https://www.mmm.ucar.edu/models/wrf
+    Here is a nice step-by-step on downloading and accessing: 
+        https://github.com/moptis/era5-for-wrf
+
+Good luck!
+
+    -- Claire
+
 """
 
 #%% necessary packages
@@ -55,55 +83,6 @@ print("Packages Loaded")
 
 ########defining functions#####
 
-
-'''
-def _wrfread_gcm(model, gcm, variant, dir, var, domain):
-    all_files = sorted(os.listdir(dir))
-
-    anal_files = []
-    for ii in all_files:
-        if ii.startswith(var + ".") and model in ii and gcm in ii \
-                and variant in ii and domain in ii:
-            if domain in ii:
-                anal_files.append(dir + str(ii))
-
-    del all_files
-
-    nf = len(anal_files)
-    if nf == 0:
-        raise ValueError("No files found matching the criteria.")
-
-    data = xr.open_mfdataset(anal_files, combine="by_coords")
-    var_read = data.variables[var]
-    day = data.variables["day"].values
-
-    # Convert days to datetime, coerce errors to NaT
-    day_dates = pd.to_datetime(day, format='%Y%m%d', errors='coerce')
-
-    # Filter out NaT values
-    valid_dates = day_dates.dropna()
-
-    # Calculate and print the number of removed observations
-    removed_count = len(day_dates) - len(valid_dates)
-    print(f"{removed_count} observations removed due to invalid dates.")
-
-    if len(valid_dates) == 0:
-        raise ValueError("No valid dates found after filtering.")
-
-    dates = pd.date_range(start=valid_dates.min(), end=valid_dates.max(), freq="D")
-
-    # Mask array setting leap years = True, these two lines need to be commented out for cnrm and ece, they should be active for cesm2 and fgoals
-    # Remember to run the lines of code that defines this function after commenting/uncommenting before using the function
-    #is_leap_day = (dates.month == 2) & (dates.day == 29)
-    #dates = dates[~is_leap_day]
-
-    var_read = xr.DataArray(var_read, dims=['day', 'lat2d', 'lon2d'])
-    var_read['day'] = dates  # Year doesn't matter here
-
-    return var_read
-
-print("Functions loaded")
-'''
 
 def _wrfread_simple(gcm, dir, var, domain):
     all_files = sorted(os.listdir(dir))
@@ -160,11 +139,13 @@ var = 'snow' #var does not change, we are only interested in snow water equivale
 gcm = 'era5'
 
 #point to the directory that contains the raw NetCDF files, this needs to be adjusted pending gcm and time period/emissions scenario
-dir = "C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Data files/Raw 9km reanalysis data/era5/"
+dir = "data_nc/era5_sangabriel/"
 
 #grab all of the NetCDF files that match the criteria above and open them
 var_wrf = _wrfread_simple(gcm,dir,var,domain)
 
+# region specification:
+region = "sangabriel"
 
 
 #%% extract SWE values at sampling points from NC files 
@@ -172,10 +153,14 @@ var_wrf = _wrfread_simple(gcm,dir,var,domain)
 ####point to wrf metadata file and coordinates csv file, then extract swe values at those coordinates######
 
 #import csv file with sample coordinates
-coordinates_df = pd.read_csv("C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Input files for data extraction at points/station_coord.csv") 
+coordinates_df = pd.read_csv("input/station_coords_sangabriel.csv") 
+
+# specify the output filename
+output_csv = f"data_raw/era5_sangabriel.csv"
+
 
 #file path to point to your wrfinput file, there are two metadata files--one for 9km data and one for 3km data
-metadata_path = "C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Input files for data extraction at points/wrfinput_d02"
+metadata_path = "input/wrfinput_d02"
 
 # Open the wrfinput_d02 file
 metadata = Dataset(metadata_path)
@@ -192,7 +177,7 @@ swe_values_at_points = var_wrf.isel(lat2d=jjj, lon2d=iii)
 swe_values_df = swe_values_at_points.to_dataframe(name="SWE")
 
 # Specify the full path for the CSV file, adjust pending gcm/variant, period/emissions scenario, and spatial resolution
-csv_file_path = "C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Data files/Raw csv files containing reanalysis data extracted at points 9km/era5.csv"
+csv_file_path = "put-your-file-path-here.csv"
 
 # Save the DataFrame to CSV at the specified path
 swe_values_df.to_csv(csv_file_path)

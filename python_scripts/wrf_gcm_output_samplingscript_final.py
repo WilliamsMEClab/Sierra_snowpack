@@ -1,8 +1,48 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar  1 09:40:01 2024
 
-@author: DavGreenspan
+Hi friend! 
+
+The code below is to load files from the Global Climate Models (GCMs).
+
+The current GCM output is super big and not a very high resolution, so some
+    really cool researchers use something they call "Dynamic Downscaling"
+    using the Weather Research and Forecasting (WRF) model (which is one
+    of the other python scripts included in this folder.)
+
+Here are some great resources to learn a bit about the data:
+    https://dept.atmos.ucla.edu/alexhall/downscaling-cmip6
+    https://gmd.copernicus.org/articles/17/2265/2024/gmd-17-2265-2024.html
+
+
+This dataset is being updated all the time, so I recommend when you do your
+    research, you download the most recent dataset, as well as anything you are 
+    wanting to compare it to.
+
+    You can access the data here:
+    https://registry.opendata.aws/wrf-cmip6/
+
+    Using AWS Open Data Registry can be a bit confusing, because you might
+    need to use the CLI (command line interface) to access it.
+
+    I found this tutorial super helpful so you can download the data that you
+    actually want: 
+    https://www.researchgate.net/publication/374504614_Data_tier_descriptions_directory_structure_and_data_access_of_the_Western_US_Dynamically_Downscaled_Dataset_WUS-D3_version_1
+    
+    Pay attention to the fact that there are three data tiers!
+
+    Another helpful tutorial is this Jupyter Notebook. I might guess that 
+    Kyle used this Notebook as a model for the code below :). So, when you 
+    do your data analysis, look this over and feel free to copy over any functions
+    that will help you with your goals.
+    https://nbviewer.org/urls/wrf-cmip6-noversioning.s3.amazonaws.com/Example_notebook/Notebook_example.ipynb
+
+
+This should be enough info to get you started! Happy coding!
+    -- Claire
+
+
+
 """
 
 #%% necessary packages
@@ -10,7 +50,9 @@ Created on Fri Mar  1 09:40:01 2024
 
 
 ####loading packages#######
-#note: not all of these packages are used below, but I am not certain which ones are or which are dependencies so just keep all to make sure the code works
+# note: not all of these packages are used below, but Kyle was not 
+# certain which ones are or which are dependencies so just kept all 
+# to make sure the code works
 
 
 #import necessary packages
@@ -55,55 +97,6 @@ print("Packages Loaded")
 
 ########defining functions#####
 
-
-'''
-def _wrfread_gcm(model, gcm, variant, dir, var, domain):
-    all_files = sorted(os.listdir(dir))
-
-    anal_files = []
-    for ii in all_files:
-        if ii.startswith(var + ".") and model in ii and gcm in ii \
-                and variant in ii and domain in ii:
-            if domain in ii:
-                anal_files.append(dir + str(ii))
-
-    del all_files
-
-    nf = len(anal_files)
-    if nf == 0:
-        raise ValueError("No files found matching the criteria.")
-
-    data = xr.open_mfdataset(anal_files, combine="by_coords")
-    var_read = data.variables[var]
-    day = data.variables["day"].values
-
-    # Convert days to datetime, coerce errors to NaT
-    day_dates = pd.to_datetime(day, format='%Y%m%d', errors='coerce')
-
-    # Filter out NaT values
-    valid_dates = day_dates.dropna()
-
-    # Calculate and print the number of removed observations
-    removed_count = len(day_dates) - len(valid_dates)
-    print(f"{removed_count} observations removed due to invalid dates.")
-
-    if len(valid_dates) == 0:
-        raise ValueError("No valid dates found after filtering.")
-
-    dates = pd.date_range(start=valid_dates.min(), end=valid_dates.max(), freq="D")
-
-    # Mask array setting leap years = True, these two lines need to be commented out for cnrm and ece, they should be active for cesm2 and fgoals
-    # Remember to run the lines of code that defines this function after commenting/uncommenting before using the function
-    #is_leap_day = (dates.month == 2) & (dates.day == 29)
-    #dates = dates[~is_leap_day]
-
-    var_read = xr.DataArray(var_read, dims=['day', 'lat2d', 'lon2d'])
-    var_read['day'] = dates  # Year doesn't matter here
-
-    return var_read
-
-print("Functions loaded")
-'''
 
 def _wrfread_gcm(model, gcm, variant, dir, var, domain):
     all_files = sorted(os.listdir(dir))
@@ -150,8 +143,6 @@ def _wrfread_gcm(model, gcm, variant, dir, var, domain):
 print("Functions loaded")
 
 
-
-
 #%% load the NC files with the raw data
 
 #####open the NetCDF data files containing the raw data######
@@ -164,22 +155,26 @@ variant = 'r3i1p1f1'
 model = 'ssp370' #'model' here means time period/emissions scenario, either 'historical' or 'ssp370'
 
 #point to the directory that contains the raw NetCDF files, this needs to be adjusted pending gcm and time period/emissions scenario
-dir = "C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Data files/Raw bias corrected 9km wrf output/mpi-esm1-2-hr_r3i1p1f1_ssp370_9km_raw/"
+# Make sure the NetCDF directory (dir) points to WRF files for San Gabriel area:
+
+dir = "data_nc/era5_sangabriel/"
 
 #grab all of the NetCDF files that match the criteria above and open them
 var_wrf = _wrfread_gcm(model,gcm,variant,dir,var,domain)
 
-
+# add a region variable
+region = "sangabriel"
 
 #%% extract SWE values at sampling points from NC files 
 
 ####point to wrf metadata file and coordinates csv file, then extract swe values at those coordinates######
 
 #import csv file with sample coordinates
-coordinates_df = pd.read_csv("C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Input files for data extraction at points/station_coord.csv") 
+coordinates_df = pd.read_csv("/input/station_coords_sangabriel.csv") 
 
 #file path to point to your wrfinput file, there are two metadata files--one for 9km data and one for 3km data
-metadata_path = "C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Input files for data extraction at points/wrfinput_d02"
+# Ensure metadata_path matches the correct domain (e.g., d02 for 9km resolution):
+metadata_path = "input/wrfinput_d02"
 
 # Open the wrfinput_d02 file
 metadata = Dataset(metadata_path)
@@ -196,7 +191,7 @@ swe_values_at_points = var_wrf.isel(lat2d=jjj, lon2d=iii)
 swe_values_df = swe_values_at_points.to_dataframe(name="SWE")
 
 # Specify the full path for the CSV file, adjust pending gcm/variant, period/emissions scenario, and spatial resolution
-csv_file_path = "C:/Users/DavGreenspan/Box/Southern Sierra SWE Data Collection and Processing/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-hr_r3i1p1f1_ssp370_9km.csv"
+csv_file_path = "where-this-is-saved-on-your-computer.csv"
 
 # Save the DataFrame to CSV at the specified path
 swe_values_df.to_csv(csv_file_path)

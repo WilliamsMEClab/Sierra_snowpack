@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Dec 12 06:48:24 2024
 
-@author: DavGreenspan
+Since the data is on a grid of lat/long you can make a datagrid with the code below!
+
 """
 
 import geopandas as gpd
@@ -14,8 +14,8 @@ import numpy as np
 import wrf
 
 # File paths
-metadata_path = "C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Input files for data extraction at points/wrfinput_d02"
-coordinates_csv_path = "C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Input files for data extraction at points/station_coord.csv"
+metadata_path = "your-filepath-wrfinput"
+coordinates_csv_path = "your-file-path-station_coord.csv"
 
 # Load WRF metadata
 metadata = Dataset(metadata_path)
@@ -47,7 +47,7 @@ sampling_points_gdf = gpd.GeoDataFrame(
 )
 
 # File paths to save the shapefiles
-grid_centers_shapefile = "C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/grid_cell_centers.shp"
+grid_centers_shapefile = "your-file-path-grid_cell_centers.shp"
 
 # Save the grid cell centers as a shapefile
 grid_centers_gdf.to_file(grid_centers_shapefile)
@@ -62,6 +62,6 @@ coordinates_df['WRF_Longitude'] = lon_centers
 coordinates_df['Elevation'] = elevation
 
 # Save the updated table to a new CSV file
-coordinates_df.to_csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/wrf_grid_cell_elevations.csv", index=False)
+coordinates_df.to_csv("your-file-path-wrf_grid_cell_elevations.csv", index=False)
 
 

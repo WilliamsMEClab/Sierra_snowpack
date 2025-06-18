@@ -1,3 +1,11 @@
+"""
+This R code is a really big file to help with data cleaning!
+
+You will need to change all the file paths to match how it is
+downloaded on your computer.
+
+"""
+
 library(ggplot2)
 library(dplyr)
 library(lubridate)
@@ -18,52 +26,52 @@ font_import(pattern = "arial", prompt = FALSE)
 
 #read in the raw model output csv files
 
-era5 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing reanalysis data extracted at points 9km/era5.csv")
+era5 <- read.csv("your-file-path-era5.csv")
 
-cesm_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/cesm_r11i1p1f1_hist_9km.csv")
-cesm_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/cesm_r11i1p1f1_ssp370_9km.csv")
+cesm_hist <- read.csv("your-file-path-cesm_r11i1p1f1_hist_9km.csv")
+cesm_ssp370 <- read.csv("your-file-path-cesm_r11i1p1f1_ssp370_9km.csv")
 
-cnrm_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/cnrm_r1i1p1f2_hist_9km.csv")
-cnrm_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/cnrm_r1i1p1f2_ssp370_9km.csv")
+cnrm_hist <- read.csv("your-file-path-cnrm_r1i1p1f2_hist_9km.csv")
+cnrm_ssp370 <- read.csv("your-file-path-cnrm_r1i1p1f2_ssp370_9km.csv")
 
-eceveg_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/ece-veg_r1i1p1f1_hist_9km.csv")
-eceveg_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/ece-veg_r1i1p1f1_ssp370_9km.csv")
+eceveg_hist <- read.csv("your-file-path-ece-veg_r1i1p1f1_hist_9km.csv")
+eceveg_ssp370 <- read.csv("your-file-path-ece-veg_r1i1p1f1_ssp370_9km.csv")
 
-fgoals_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/fgoals_r1i1p1f1_hist_9km.csv")
-fgoals_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/fgoals_r1i1p1f1_ssp370_9km.csv")
+fgoals_hist <- read.csv("your-file-path-fgoals_r1i1p1f1_hist_9km.csv")
+fgoals_ssp370 <- read.csv("your-file-path-fgoals_r1i1p1f1_ssp370_9km.csv")
 
-access_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/access-cm2_r5i1p1f1_hist_9km.csv")
-access_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/access-cm2_r5i1p1f1_ssp370_9km.csv")
+access_hist <- read.csv("your-file-path-access-cm2_r5i1p1f1_hist_9km.csv")
+access_ssp370 <- read.csv("your-file-path-access-cm2_r5i1p1f1_ssp370_9km.csv")
 
-canesm5_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/canesm5_r1i1p2f1_hist_9km.csv")
-canesm5_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/canesm5_r1i1p2f1_ssp370_9km.csv")
+canesm5_hist <- read.csv("your-file-path-canesm5_r1i1p2f1_hist_9km.csv")
+canesm5_ssp370 <- read.csv("your-file-path-canesm5_r1i1p2f1_ssp370_9km.csv")
 
-ece_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/ec-earth3_r1i1p1f1_hist_9km.csv")
-ece_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/ec-earth3_r1i1p1f1_ssp370_9km.csv")
+ece_hist <- read.csv("your-file-path-ec-earth3_r1i1p1f1_hist_9km.csv")
+ece_ssp370 <- read.csv("your-file-path-ec-earth3_r1i1p1f1_ssp370_9km.csv")
 
-giss_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/giss-e2-1-g_r1i1p1f2_hist_9km.csv")
-giss_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/giss-e2-1-g_r1i1p1f2_ssp370_9km.csv")
+giss_hist <- read.csv("your-file-path-giss-e2-1-g_r1i1p1f2_hist_9km.csv")
+giss_ssp370 <- read.csv("your-file-path-giss-e2-1-g_r1i1p1f2_ssp370_9km.csv")
 
-miroc6_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/miroc6_r1i1p1f1_hist_9km.csv")
-miroc6_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/miroc6_r1i1p1f1_ssp370_9km.csv")
+miroc6_hist <- read.csv("your-file-path-miroc6_r1i1p1f1_hist_9km.csv")
+miroc6_ssp370 <- read.csv("your-file-path-miroc6_r1i1p1f1_ssp370_9km.csv")
 
-mpihrr7_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-hr_r7i1p1f1_hist_9km.csv")
-mpihrr7_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-hr_r7i1p1f1_ssp370_9km.csv")
+mpihrr7_hist <- read.csv("your-file-path-mpi-esm1-2-hr_r7i1p1f1_hist_9km.csv")
+mpihrr7_ssp370 <- read.csv("your-file-path-mpi-esm1-2-hr_r7i1p1f1_ssp370_9km.csv")
 
-mpihrr3_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-hr_r3i1p1f1_hist_9km.csv")
-mpihrr3_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-hr_r3i1p1f1_ssp370_9km.csv")
+mpihrr3_hist <- read.csv("your-file-path-mpi-esm1-2-hr_r3i1p1f1_hist_9km.csv")
+mpihrr3_ssp370 <- read.csv("your-file-path-mpi-esm1-2-hr_r3i1p1f1_ssp370_9km.csv")
 
-mpilr_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-lr_r7i1p1f1_hist_9km.csv")
-mpilr_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/mpi-esm1-2-lr_r7i1p1f1_ssp370_9km.csv")
+mpilr_hist <- read.csv("your-file-path-mpi-esm1-2-lr_r7i1p1f1_hist_9km.csv")
+mpilr_ssp370 <- read.csv("your-file-path-mpi-esm1-2-lr_r7i1p1f1_ssp370_9km.csv")
 
-noresm_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/noresm2-mm_r1i1p1f1_hist_9km.csv")
-noresm_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/noresm2-mm_r1i1p1f1_ssp370_9km.csv")
+noresm_hist <- read.csv("your-file-path-noresm2-mm_r1i1p1f1_hist_9km.csv")
+noresm_ssp370 <- read.csv("your-file-path-noresm2-mm_r1i1p1f1_ssp370_9km.csv")
 
-taiesm_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/taiesm1_r1i1p1f1_hist_9km.csv")
-taiesm_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/taiesm1_r1i1p1f1_ssp370_9km.csv")
+taiesm_hist <- read.csv("your-file-path-taiesm1_r1i1p1f1_hist_9km.csv")
+taiesm_ssp370 <- read.csv("your-file-path-taiesm1_r1i1p1f1_ssp370_9km.csv")
 
-ukesm_hist <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/ukesm1-0-ll_r2i1p1f2_hist_9km.csv")
-ukesm_ssp370 <- read.csv("C:/Users/DavGreenspan/Box/Preparing for Uncertain Water Futures Paper/Data files/Raw csv files containing model data extracted at points 9km/ukesm1-0-ll_r2i1p1f2_ssp370_9km.csv")
+ukesm_hist <- read.csv("your-file-path-ukesm1-0-ll_r2i1p1f2_hist_9km.csv")
+ukesm_ssp370 <- read.csv("your-file-path-ukesm1-0-ll_r2i1p1f2_ssp370_9km.csv")
 
 
 
